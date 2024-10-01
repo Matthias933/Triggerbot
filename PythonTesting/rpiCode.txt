@@ -6,7 +6,6 @@ from adafruit_hid.mouse import MouseEvent
 from adafruit_hid.device import Device
 import digitalio
 
-# Set up serial connection
 uart = busio.UART(board.TX, board.RX, baudrate=115200)
 
 # Create a Mouse object
@@ -22,16 +21,16 @@ def click_mouse():
     mouse.click(MouseEvent.LEFT_BUTTON)
 
 while True:
-    if uart.in_waiting:  # Check if data is available to read
-        data = uart.readline()  # Read a line of data
-        coords = data.decode('utf-8').strip()  # Decode and strip newline characters
+    if uart.in_waiting: 
+        data = uart.readline()
+        coords = data.decode('utf-8').strip()
         
         if coords:  # Check if coordinates were received
-            x, y = map(int, coords.split(','))  # Split and convert to integers
+            x, y = map(int, coords.split(','))
             print(f"Moving mouse to: ({x}, {y})")
             move_mouse_to_coordinates((x, y))  # Move the mouse to the coordinates
             click_mouse()  # Simulate a left mouse click
-            time.sleep(0.1)  # Small delay to avoid flooding
+            time.sleep(0.1)
         else:
             print("rpi did not receive any coordinates")
 
