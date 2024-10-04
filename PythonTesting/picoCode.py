@@ -5,8 +5,6 @@ import usb_hid
 from adafruit_hid.mouse import Mouse
 import digitalio
 import usb_cdc
-import board
-import digitalio
 
 led = digitalio.DigitalInOut(board.LED)
 led.direction = digitalio.Direction.OUTPUT
@@ -14,19 +12,19 @@ led.direction = digitalio.Direction.OUTPUT
 # Create a Mouse object
 mouse = Mouse(usb_hid.devices) 
 
-
-
-
 while True:
     if usb_cdc.console.in_waiting > 0:
         # Read the incoming message
-        message = usb_cdc.console.read(usb_cdc.console.in_waiting).decode("utf-8").strip()
+        coords = usb_cdc.console.read(usb_cdc.console.in_waiting).decode("utf-8").strip()
         
-        # Perform an action based on the received message
-        if message == "1":
-            time.sleep(0.1)
+        if coords: 
+            #rpi pi receives an x and y value which is the distance to the enemy
+            x, y = map(int, coords.split(','))
+            # Move to coords
+            mouse.move(x, y)
             mouse.click(Mouse.LEFT_BUTTON)
-            time.sleep(0.1)
             led.value = True
-        elif message == "0":
-            led.value = False
+            
+    else:
+        #mouse.move(100, 0)  # Move the mouse right when no coordinates are received
+        led.value = False
