@@ -7,8 +7,10 @@
 #### + Any Raspberry pi installed with cricuitpython and the adafruit lib
 
 
+## How it works
+#### Vanguarded will automaticle block your normal mouse when you plug the raspberry pi into your Computer and start the script. 
+#### To ensure that you are still able to look around i will implent a key detection system which will be sent to the raspberry pi so he is able to simulate a real mouse Movement.
 
 
 
-
-###### Please not cheating is not allowed in most game. 
+###### Please note that cheating is not allowed in most game. 
