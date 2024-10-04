@@ -19,11 +19,15 @@ while True:
         
         if coords: 
             #rpi pi receives an x and y value which is the distance to the enemy
-            x, y = map(int, coords.split(','))
-            # Move to coords
-            mouse.move(x, y)
-            mouse.click(Mouse.LEFT_BUTTON)
-            led.value = True
+            x, y, rotate_mouse = map(int, coords.split(','))
+            
+            if rotate_mouse != 0:
+               mouse.move(rotate_mouse, 0) #only moving mouse on X axcis
+            else:
+                # Move to coords
+                mouse.move(x, y)
+                mouse.click(Mouse.LEFT_BUTTON)
+                led.value = True
             
     else:
         #mouse.move(100, 0)  # Move the mouse right when no coordinates are received

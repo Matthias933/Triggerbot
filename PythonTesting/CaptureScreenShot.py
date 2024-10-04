@@ -5,6 +5,7 @@ import numpy as np
 import serial
 import threading
 import time
+import keyboard # install via pip install keyboard
 
 # TIP: User RGB color for red: 131,29,25
 
@@ -67,6 +68,16 @@ class TriggerBotApp:
         while self.running:
             screenshot = pyautogui.screenshot()
             screenshot_np = np.array(screenshot)
+            screenshot_width, screenshot_height = screenshot.size
+            event = keyboard.read_event()
+
+            if event.event_type == keyboard.KEY_DOWN and event.name == 'left':
+                self.send_rotateMouse_ser(-(screenshot_width / 2))
+                continue
+            elif event.event_type == keyboard.KEY_DOWN and event.name == 'right':
+                self.send_rotateMouse_ser(screenshot_width / 2)
+                continue
+
 
             # Get RGB values from entry fields
             red = int(self.red_entry.get())
@@ -82,7 +93,7 @@ class TriggerBotApp:
 
                 # get current mouse pos
                 mousePos = pyautogui.position()
-                self.send_ser(first_coord, mousePos)
+                self.send_enemyPos_ser(first_coord, mousePos)
 
                 self.detection_status_label.config(text="Detection Status: Enemy Detected!", fg="green", bg="#222831")
                 print("Enemy detected!")
@@ -92,7 +103,7 @@ class TriggerBotApp:
 
             time.sleep(0.025)  # Adjust frequency of checking
 
-    def send_ser(self, first_enemy, curr_mousePos):
+    def send_enemyPos_ser(self, first_enemy, curr_mousePos):
         #idk why but for some reason y is being saved at first
         y, x = first_enemy
         mouseX, mouseY = curr_mousePos
@@ -100,8 +111,13 @@ class TriggerBotApp:
         deltaX = x - mouseX
         deltaY = y - mouseY
 
-        message = f"{deltaX},{deltaY}\n".encode('utf-8')
+        message = f"{deltaX},{deltaY},{0}\n".encode('utf-8')
         self.ser.write(message)
+
+    def send_rotateMouse_ser(self, mouseX)
+        message = f"{0},{0},{mouseX}\n".encode('utf-8')
+        self.ser.write(message)
+        
 
 if __name__ == "__main__":
     root = tk.Tk()
