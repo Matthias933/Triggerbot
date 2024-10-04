@@ -1,5 +1,14 @@
-Do not use this script in a public valorant lobby. I haven't tested it out so you might get banned immediately. 
+# Trigger bot
 
-You are going to need:
-Any Rpi
-Python installed on your computer
+#### This script will work for any game where you can detect enemies by a color.
+
+## What you need
+#### + Python installed on your Computer
+#### + Any Raspberry pi installed with cricuitpython and the adafruit lib
+
+
+
+
+
+
+###### Please not cheating is not allowed in most game. 
